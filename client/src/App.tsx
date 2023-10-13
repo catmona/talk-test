@@ -1,26 +1,24 @@
-import { useEffect, useState } from 'react';
+import { edenTreaty } from '@elysiajs/eden';
+import type { App } from '../../server/src/index';
 
 function App() {
     
-    const [message, setMessage] = useState("");
+    const client = edenTreaty<App>('http://localhost:3000');
     
-    useEffect(() => {
-        const fetchData = async () => {
-            console.log('fetching!');
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const msg = await (await fetch('http://localhost:3000/')).json();
-            setMessage(msg);
-        }
+    async function fet() {
         
-        void fetchData();
-    }, [])
-    
+        const {data, error} = await client.test.get();
+        console.log(data);
+        if(error) console.error(error);
+    }
+    void fet();
     
     return (
         <>
-            <h1 className="font-semibold">{message}</h1>
+            <h1 className="font-semibold">{}</h1>
         </>
     )
 }
 
 export default App
+
